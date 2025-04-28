@@ -9,8 +9,11 @@ import com.example.workingserver.model.Object
 
 class ObjectAdapter(private val objects: List<Object>) : RecyclerView.Adapter<ObjectAdapter.ObjectViewHolder>() {
 
-    class ObjectViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textView: TextView = view.findViewById(R.id.textView)
+    class ObjectViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nameText: TextView = itemView.findViewById(R.id.nameText)
+        val colorText: TextView = itemView.findViewById(R.id.colorText)
+        val capacityText: TextView = itemView.findViewById(R.id.capacityText)
+        val descriptionText: TextView = itemView.findViewById(R.id.descriptionText)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ObjectViewHolder {
@@ -20,8 +23,17 @@ class ObjectAdapter(private val objects: List<Object>) : RecyclerView.Adapter<Ob
 
     override fun onBindViewHolder(holder: ObjectViewHolder, position: Int) {
         val obj = objects[position]
-        holder.textView.text = obj.name
+        holder.nameText.text = obj.name
+
+        val color = obj.data?.get("color") ?: obj.data?.get("Color") ?: "No color"
+        holder.colorText.text = "Color: $color"
+
+        val capacity = obj.data?.get("capacity") ?: obj.data?.get("Capacity") ?: "Capacity not found"
+        holder.capacityText.text = "Capacity: $capacity"
+
+        val description = obj.data?.get("description") ?: obj.data?.get("Description") ?: "No description"
+        holder.descriptionText.text = "Description: $description"
     }
 
-    override fun getItemCount() = objects.size
+    override fun getItemCount(): Int = objects.size
 }
